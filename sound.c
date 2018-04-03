@@ -1,8 +1,9 @@
 #include "sound.h"
+#include "screen.h"
 #include <stdio.h>
-
+#include <math.h>
 //function defination of displayWAVheader()
-void displayWAVheader(char filename[])
+void displayWAVHeader(char filename[])
 {
 	WAVHeader myheader;  //an instance of defined struct
 	FILE *fp;
@@ -27,6 +28,7 @@ void displayWAVheader(char filename[])
 	printID(myheader.subchunk2ID);
 	printf("subchunk 2 size: %d\n",myheader.subchunk2Size);
 }
+
 void printID(char id[])
 {
 	for(int i=0;i<4;i++)
@@ -42,8 +44,11 @@ void printID(char id[])
 //fucntion defination of displayBar
 void displayBar(char filename[])
 {
+	WAVHeader myheader;  //an instance of defined struct
 	FILE *fp;
-	short int sample[SAMPLERATE];
+	short int samples[SAMPLERATE];
+	int i,j;
+	double sum_200, rms_80[80], dB;
 	fp=fopen(filename,"r");
 	if(fp==NULL)
 	{
@@ -56,8 +61,20 @@ void displayBar(char filename[])
 //ALL THE samples of the lsec are trad to the array samples[],we need to run a loop
 //80 times for 80 bars on the screen,and each iteration of this loop will calculate
 //a RMS(root mean square,junfanggen) value of 200 samples
-	for(int i=0;i<80;i++)
+	clearScreen();
+	for(i=0;i<80;i++)
 	{
-		
-	}
-}
+		for(j=0,sum_200=0.0;j<200;j++)
+		{
+			sum_200 += samples[j+i*200] * samples[j+i*200];
+		}
+		rms_80[i]=sqrt(sum_200/200);
+		dB=20*log10(rms_80[i]);
+#ifdef DEBUG
+		printf("RMS[%d] = %10.4f = %10.4fdB\n",i,rms_80[i],dB);
+#else
+		bar(i,dB);
+#endif
+	}//for
+}//function
+
