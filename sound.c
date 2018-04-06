@@ -1,3 +1,4 @@
+#include "comm.h"
 #include "sound.h"
 #include "screen.h"
 #include <stdio.h>
@@ -76,5 +77,8 @@ void displayBar(char filename[])
 		bar(i,dB);
 #endif
 	}//for
+#ifdef COMM 
+	sendToServer(rms_80);
+#endif
 }//function
 
