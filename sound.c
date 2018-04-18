@@ -3,7 +3,14 @@
 #include "screen.h"
 #include <stdio.h>
 #include <math.h>
-//function defination of displayWAVheader()
+/*
+	function defination of displayWAVheader()
+	This funtion is going to display the chunk size, subchunk 1 size, audio format,
+	number of channel, sample rate, byte rate, block align, bits per sample,
+	subchunk 2 size.
+	input argument: char filename[]
+	output argument: none
+*/
 void displayWAVHeader(char filename[])
 {
 	WAVHeader myheader;  //an instance of defined struct
@@ -20,7 +27,7 @@ void displayWAVHeader(char filename[])
 	printID(myheader.format);
 	printID(myheader.subchunk1ID);
 	printf("subchunk 1 size: %d\n",myheader.subchunk1Size);
-	printf("audio dormat: %d\n",myheader.audioFormat);
+	printf("audio format: %d\n",myheader.audioFormat);
 	printf("number of channel: %d\n",myheader.numChannels);
 	printf("sample rate: %d\n",myheader.sampleRate);
 	printf("byte rate: %d\n",myheader.byteRate);
@@ -30,6 +37,12 @@ void displayWAVHeader(char filename[])
 	printf("subchunk 2 size: %d\n",myheader.subchunk2Size);
 }
 
+/*
+	function definition of printID()
+	This function prints ID.
+	intput argument: char id[]
+	ouput argument: none
+*/
 void printID(char id[])
 {
 	for(int i=0;i<4;i++)
@@ -38,11 +51,15 @@ void printID(char id[])
 	printf("\n");
 }
 
-//this function opens the "test.wav" file and read the second part(data) of 
-//the file ,and the samples should be in S16_LE format,and there are 16000 of 
-//them. The function processes every 200 saleses and calculate their RMS values
-//and reders this values as a  vertical bar on terminal screen 
-//fucntion defination of displayBar
+/*
+	function definition of displayBar()
+	this function opens the "test.wav" file and read the second part(data) of
+	the file ,and the samples should be in S16_LE format,and there are 16000 of
+	them. The function processes every 200 saleses and calculate their RMS values
+	and reders this values as a  vertical bar on terminal screen.
+	iuput argumnet:char filename()
+	output argument:none
+*/
 void displayBar(char filename[])
 {
 	WAVHeader myheader;  //an instance of defined struct

@@ -6,13 +6,19 @@
 //16000/80=200 samoles,but hte function will re-calulate 8-pieces of RMS values,
 //each corresponding to 2000 samples or 125mx of sound
 
+/*
+	function definition of sendToServer()
+	This funtion is a simple HTTP POST using the easy interface
+	input argument:
+		double r80[]
+	output argument:none
+*/
 void sendToServer(double r80[]){
 	double r8[8],sum;
 	int i,j;//loop counters
 	CURL *curl;
 	CURLcode res;
 	char post[1000];
-	
 	for(i=0;i<8;i++)//to calculate 8-pieces of fast values
 	{
 		sum=0;
